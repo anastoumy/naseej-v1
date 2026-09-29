@@ -1,0 +1,67 @@
+enum OrderChannel {
+    POS
+    WEB
+    MOBILE
+}
+
+enum OrderStatus {
+    PENDING
+    CONFIRMED
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+    REFUNDED
+}
+
+type Order {
+    id: UUID!
+    orderNumber: String!
+    customer: Customer
+    location: Location
+    staff: User
+    channel: OrderChannel!
+    status: OrderStatus!
+    subtotal: Float!
+    taxAmount: Float!
+    discountAmount: Float!
+    total: Float!
+    notes: String
+    items: [OrderItem!]!
+    payments: [Payment!]!
+    createdAt: Time!
+}
+
+type OrderItem {
+    id: UUID!
+    variant: ProductVariant!
+    productName: String!
+    variantLabel: String!
+    sku: String!
+    quantity: Int!
+    unitPrice: Float!
+    discountAmount: Float!
+    total: Float!
+}
+
+type OrderConnection {
+    items: [Order!]!
+    total: Int!
+}
+
+input CreateOrderInput {
+    customerId: UUID
+    locationId: UUID
+    channel: OrderChannel!
+    items: [CreateOrderItemInput!]!
+    notes: String
+}
+
+input CreateOrderItemInput {
+    variantId: UUID!
+    productName: String!
+    variantLabel: String!
+    sku: String!
+    quantity: Int!
+    unitPrice: Float!
+}

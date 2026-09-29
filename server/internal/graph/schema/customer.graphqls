@@ -1,0 +1,44 @@
+type Customer {
+    id: UUID!
+    firstName: String!
+    lastName: String!
+    email: String
+    phone: String
+    loyaltyPoints: Int!
+    tags: [String!]
+    totalSpent: Float!
+    orderCount: Int!
+    addresses: [CustomerAddress!]!
+    createdAt: Time!
+}
+
+type CustomerAddress {
+    id: UUID!
+    label: String
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    state: String
+    postalCode: String
+    country: String!
+    isDefault: Boolean!
+}
+
+type CustomerConnection {
+    items: [Customer!]!
+    total: Int!
+}
+
+input CreateCustomerInput {
+    firstName: String!
+    lastName: String!
+    email: String
+    phone: String
+}
+
+input UpdateCustomerInput {
+    firstName: String
+    lastName: String
+    email: String
+    phone: String
+}

@@ -1,0 +1,39 @@
+enum PaymentMethod {
+    CASH
+    CARD
+    BANK_TRANSFER
+    LOYALTY_POINTS
+}
+
+enum PaymentStatus {
+    PENDING
+    COMPLETED
+    FAILED
+    REFUNDED
+}
+
+type Payment {
+    id: UUID!
+    order: Order!
+    method: PaymentMethod!
+    status: PaymentStatus!
+    amount: Float!
+    reference: String
+    processedAt: Time
+}
+
+type Refund {
+    id: UUID!
+    payment: Payment!
+    order: Order!
+    amount: Float!
+    reason: String
+    createdAt: Time!
+}
+
+input RefundInput {
+    paymentId: UUID!
+    orderId: UUID!
+    amount: Float!
+    reason: String
+}

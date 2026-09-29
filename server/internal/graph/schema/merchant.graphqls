@@ -1,0 +1,22 @@
+type MerchantConfig {
+    id: UUID!
+    businessName: String!
+    slug: String!
+    logoUrl: String
+    primaryColor: String
+    secondaryColor: String
+    currency: String!
+    timezone: String!
+    taxRate: Float!
+    locations: [Location!]!
+    sizeGroups: [SizeGroup!]!
+}
+
+type Location {
+    id: UUID!
+    name: String!
+    address: String
+    city: String
+    isWarehouse: Boolean!
+    isActive: Boolean!
+}

@@ -1,0 +1,110 @@
+type Product {
+    id: UUID!
+    name: String!
+    slug: String!
+    description: String
+    basePrice: Float!
+    comparePrice: Float
+    brand: Brand
+    category: Category
+    images: [ProductImage!]!
+    variants: [ProductVariant!]!
+    tags: [String!]
+    isPublished: Boolean!
+    isActive: Boolean!
+    createdAt: Time!
+}
+
+type ProductVariant {
+    id: UUID!
+    product: Product!
+    sku: String!
+    barcode: String
+    size: Size!
+    color: Color!
+    priceOverride: Float
+    isActive: Boolean!
+}
+
+type ProductImage {
+    id: UUID!
+    url: String!
+    altText: String
+    sortOrder: Int!
+    isPrimary: Boolean!
+}
+
+type SizeGroup {
+    id: UUID!
+    name: String!
+    sizes: [Size!]!
+}
+
+type Size {
+    id: UUID!
+    name: String!
+    sortOrder: Int!
+}
+
+type Color {
+    id: UUID!
+    name: String!
+    hexCode: String
+}
+
+type Category {
+    id: UUID!
+    name: String!
+    slug: String!
+    parent: Category
+    children: [Category!]!
+    sizeGroup: SizeGroup
+}
+
+type Brand {
+    id: UUID!
+    name: String!
+    slug: String!
+    logoUrl: String
+}
+
+type ProductConnection {
+    items: [Product!]!
+    total: Int!
+}
+
+input CreateProductInput {
+    categoryId: UUID
+    brandId: UUID
+    name: String!
+    description: String
+    basePrice: Float!
+    comparePrice: Float
+    costPrice: Float
+    tags: [String!]
+    variants: [CreateVariantInput!]!
+}
+
+input UpdateProductInput {
+    name: String
+    description: String
+    basePrice: Float
+    comparePrice: Float
+    costPrice: Float
+    isPublished: Boolean
+    tags: [String!]
+}
+
+input CreateVariantInput {
+    productId: UUID
+    sizeId: UUID!
+    colorId: UUID!
+    sku: String!
+    barcode: String
+    priceOverride: Float
+}
+
+input CreateSizeGroupInput {
+    name: String!
+    sizes: [String!]!
+}

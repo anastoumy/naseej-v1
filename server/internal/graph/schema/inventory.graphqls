@@ -1,0 +1,29 @@
+type InventoryLevel {
+    id: UUID!
+    variant: ProductVariant!
+    location: Location!
+    quantity: Int!
+    reserved: Int!
+    reorderPoint: Int!
+}
+
+type InventoryEvent {
+    variantId: UUID!
+    locationId: UUID!
+    newQuantity: Int!
+}
+
+input AdjustStockInput {
+    variantId: UUID!
+    locationId: UUID!
+    delta: Int!
+    reason: String!
+    notes: String
+}
+
+input TransferStockInput {
+    variantId: UUID!
+    fromLocationId: UUID!
+    toLocationId: UUID!
+    quantity: Int!
+}

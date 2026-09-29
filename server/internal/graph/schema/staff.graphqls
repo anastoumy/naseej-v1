@@ -1,0 +1,59 @@
+type User {
+    id: UUID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String
+    avatarUrl: String
+    isActive: Boolean!
+    roles: [Role!]!
+    locations: [Location!]!
+    lastLoginAt: Time
+}
+
+type Role {
+    id: UUID!
+    name: String!
+    description: String
+    isSystem: Boolean!
+    permissions: [Permission!]!
+}
+
+type Permission {
+    id: UUID!
+    resource: String!
+    action: String!
+    description: String
+}
+
+type AuthPayload {
+    token: String!
+    refreshToken: String!
+    user: User!
+}
+
+type ManagerOverride {
+    id: UUID!
+    manager: User!
+    cashier: User!
+    action: String!
+    reason: String
+    createdAt: Time!
+}
+
+input CreateStaffInput {
+    email: String!
+    password: String!
+    firstName: String!
+    lastName: String!
+    phone: String
+    pin: String
+    roleId: UUID
+}
+
+input ManagerOverrideInput {
+    cashierId: UUID!
+    action: String!
+    reason: String
+    locationId: UUID
+}

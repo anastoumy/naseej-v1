@@ -1,0 +1,70 @@
+scalar Time
+scalar UUID
+scalar Decimal
+scalar JSON
+
+directive @auth(permissions: [String!]!) on FIELD_DEFINITION
+
+type Query {
+    # Merchant Bootstrap (called on app startup by frontends)
+    merchantBootstrap: MerchantConfig!
+
+    # Products
+    products(limit: Int, offset: Int): ProductConnection!
+    product(slug: String!): Product
+    productByBarcode(barcode: String!): ProductVariant
+
+    # Size Groups
+    sizeGroups: [SizeGroup!]!
+
+    # Inventory
+    inventoryLevels(locationId: UUID, variantId: UUID): [InventoryLevel!]!
+
+    # Orders
+    orders(limit: Int, offset: Int): OrderConnection!
+    order(id: UUID!): Order
+
+    # Customers
+    customers(search: String, limit: Int, offset: Int): CustomerConnection!
+    customer(id: UUID!): Customer
+
+    # Staff
+    staff: [User!]!
+    roles: [Role!]!
+}
+
+type Mutation {
+    # Auth
+    login(email: String!, password: String!): AuthPayload!
+    loginWithPin(pin: String!): AuthPayload!
+    refreshToken(token: String!): AuthPayload!
+
+    # Products
+    createProduct(input: CreateProductInput!): Product!
+    updateProduct(id: UUID!, input: UpdateProductInput!): Product!
+    createVariant(input: CreateVariantInput!): ProductVariant!
+
+    # Size Groups
+    createSizeGroup(input: CreateSizeGroupInput!): SizeGroup!
+
+    # Inventory
+    adjustStock(input: AdjustStockInput!): InventoryLevel!
+    transferStock(input: TransferStockInput!): Boolean!
+
+    # Orders
+    createOrder(input: CreateOrderInput!): Order!
+    updateOrderStatus(id: UUID!, status: OrderStatus!): Order!
+
+    # Customers
+    createCustomer(input: CreateCustomerInput!): Customer!
+    updateCustomer(id: UUID!, input: UpdateCustomerInput!): Customer!
+
+    # Staff
+    createStaff(input: CreateStaffInput!): User!
+    assignRole(userId: UUID!, roleId: UUID!): User!
+}
+
+type Subscription {
+    inventoryUpdated(locationId: UUID): InventoryEvent!
+    orderPlaced: Order!
+}
